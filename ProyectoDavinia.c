@@ -142,8 +142,7 @@ void startFunc(void) {
 		case 0: exit(EXIT_SUCCESS); break;
 		case 1: listContactsFunc();	break;
 		case 2: addContactFunc(); break;
-		//case 3: reportFunc(); break;
-		default: printf("Opcion no ilegal.\n");
+		default: printf("Opción ilegal.\n");
 	}
 	return;
 }
@@ -258,7 +257,7 @@ void addContactFunc(void) {
 		fprintf(contactDBFile, "%s", " ---- ");
 		
 		// Telefono
-		printf("Telefono: ");
+		printf("Teléfono: ");
 		scanf("%li", &contact1.number);
 		fprintf(contactDBFile, "%li", contact1.number);
 		
