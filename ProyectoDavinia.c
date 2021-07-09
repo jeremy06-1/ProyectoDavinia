@@ -1,4 +1,4 @@
-/* PROYECTO DAVINIA V1 | II A�o de Ingenier�a en Sistemas
+/* PROYECTO DAVINIA V1 | II Año de Ingeniería en Sistemas
 Programadores: Pedro Alfonso, Kenneth Lola, Katherinne Castro, Raynner Altamirano, Jeremy Fonseca
 */
 #include <stdio.h>
@@ -32,14 +32,13 @@ int createFiles(void) {
 #endif
 
 /*Declaraciones de las funciones*/
-void	checkFilesFunc(void),	// En espera...
-		startFunc(void),		// Función de inicio
-		addContactFunc(void),	// Agregar productos
-		loginFunc(void),		// En espera...
-		listContactsFunc(void),	// En espera...
-		searchItemFunc(void);	// En espera...
+void	checkFilesFunc(void), // Comprueba la existencia de ficheros necesarios
+		startFunc(void), // Función de inicio
+		addContactFunc(void), // Agregar productos
+		loginFunc(void), // En espera...
+		listContactsFunc(void); // Visualiza todos los contactos en la DB
 
-// Funci�n principal
+// Función principal
 int main() {
 	checkFilesFunc();
 	// loginFunc();
@@ -57,8 +56,7 @@ void checkFilesFunc() {
 	*/	
 	FILE *contactDBFile, *contactsNumberFile;
 	DIR *dir;
-	int ret;
-	int opt;
+	int ret, opt;
 	
 	ret = 0;
 	dir = opendir("ficheros");
@@ -70,7 +68,7 @@ void checkFilesFunc() {
 		// Pedir consentimiento al usuario para crear archivos
 		do {
 			clearScreen();
-			printf("\nEn el directorio actual se crear�n\n\n");
+			printf("\nEn el directorio actual se crearán\n\n");
 			puts("./fichero/...");
 			puts("./fichero/contacts_db.txt");
 			puts("./fichero/contacts_number.txt");
@@ -81,7 +79,7 @@ void checkFilesFunc() {
 			
 			if (opt == 0) {
 				clearScreen();
-				printf("�Tenga buen d�a!\n");
+				printf("¡Tenga buen día!\n");
 				exit(EXIT_SUCCESS);
 			}
 			
@@ -101,9 +99,6 @@ void checkFilesFunc() {
 				case EACCES:
 					printf("Error: Acceso denegado.\n");
 					exit(EXIT_FAILURE);
-					break;
-				case ENAMETOOLONG:
-					printf("Error: Ruta extensa.\n");
 					break;
 				default:
 					printf("Error: Error desconocido.\n");
@@ -131,7 +126,7 @@ void checkFilesFunc() {
 		clearScreen();
 	}
 }
-// Funci�n de inicio
+// Función de inicio
 void startFunc(void) {
 	/*Raynner Altamirano | Proyecto Davinia | Julio 07, 2021 | startFunc()*/
 	int opt;
@@ -190,7 +185,7 @@ void listContactsFunc(){
 // Agrega nuevos contactos a la DB "ficheros/contacts_db.txt"
 void addContactFunc(void) {
 	/*Jeremy Fonseca | Proyecto Davinia | Julio 07, 2021 | addContactFunc()
-	DESCRIPCI�N DE VARIABLES
+	DESCRIPCIÓN DE VARIABLES
 	------------------------
 	contactDBFile			>> Fichero con la DB de los contactos
 	contactsNumberFile		>> Fichero con la cantidad total de contactos
@@ -216,7 +211,7 @@ void addContactFunc(void) {
 	contactDBFile = fopen("ficheros/contacts_db.txt", "a+");
 	contactsNumberFile = fopen("ficheros/contacts_number.txt", "r");
 	
-	printf("�Cu�ntos contactos va a ingresar?\n>> ");
+	printf("¿Cuántos contactos va a ingresar?\n>> ");
 	scanf("%hi", &N);
 	
 	for (i = 1; i <= N; i++) {
