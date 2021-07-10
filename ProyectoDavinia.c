@@ -1,4 +1,4 @@
-/* PROYECTO DAVINIA V1 | II Año de Ingeniería en Sistemas
+/* PROYECTO DAVINIA | II Año de Ingeniería en Sistemas
 Programadores: Pedro Alfonso, Kenneth Lola, Katherinne Castro, Raynner Altamirano, Jeremy Fonseca
 */
 #include <stdio.h>
