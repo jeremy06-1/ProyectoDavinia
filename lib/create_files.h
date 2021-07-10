@@ -28,9 +28,9 @@ void checkFilesFunc() {
 		do {
 			clearScreen();
 			printf("En el directorio actual se crearán\n\n");
-			puts("->>\t./fichero/...");
-			puts("->>\t./fichero/contacts_db.txt");
-			puts("->>\t./fichero/contacts_number.txt");
+			puts("->>\t./ficheros/...");
+			puts("->>\t./ficheros/contacts_db.txt");
+			puts("->>\t./ficheros/contacts_number.txt");
 			printf("\n1. Aceptar\n");
 			printf("0. Abortar\n\n");
 			printf("#? ");
