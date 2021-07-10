@@ -40,6 +40,8 @@ void startFunc(void) {
 	short opt;
 	
 	// Opciones disponibles
+	puts("Inicio");
+	puts("~~~~~~");
 	printf("1. Ver contactos\n");
 	printf("2. Agregar contacto\n");
 	printf("0. Salir\n");

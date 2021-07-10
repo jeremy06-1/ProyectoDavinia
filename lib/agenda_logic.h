@@ -27,7 +27,10 @@ void listContactsFunc(){
 		exit(1);
 	}
 	
-	printf("\n Contactos\n\n");
+	clearScreen();
+	printf("ID\tNombre         Apellido       Edad      Teléfono    Fecha de nacimiento\n");
+	printf("~~\t~~~~~~         ~~~~~~~~       ~~~~      ~~~~~~~~    ~~~~~~~~~~~~~~~~~~~\n");
+
 	
 	c=fgetc(fp);
 	while(c!=EOF){
@@ -35,15 +38,20 @@ void listContactsFunc(){
 		c=fgetc(fp);
 	}
 	
+	fclose(fp);
 	printf("\n");
 	
-	fclose(fp);
-}	
+	puts("Presiona una tecla para continuar...");
 	
+	getchar();
+	getchar();
+	clearScreen();
+}
+
 // Agrega nuevos contactos a la DB "ficheros/contacts_db.txt"
 void addContactFunc(void) {
 	/*Jeremy Fonseca | Proyecto Davinia | Julio 07, 2021 | addContactFunc()
-	DESCRIPCIÃ“N DE VARIABLES
+	DESCRIPCIÓN DE VARIABLES
 	------------------------
 	contactDBFile			>> Fichero con la DB de los contactos
 	contactsNumberFile		>> Fichero con la cantidad total de contactos
@@ -54,12 +62,17 @@ void addContactFunc(void) {
 	contactsNumber			>> Numero de productos en DB
 	*/
 	
-	// Estructura contacto
+	// Estructuras
+	typedef struct Birthday {
+		int d, m, y;
+	} Birthday;
+	
 	struct Contact {
 		char name[20], lastname[20], address[50], contactID[2];
 		long int number;
 		short int age;
-	} contact1;
+		Birthday birthday;
+	} Contact;
 	
 	FILE *contactDBFile, *contactsNumberFile;
 	short int i, N;
@@ -69,23 +82,28 @@ void addContactFunc(void) {
 	contactDBFile = fopen("ficheros/contacts_db.txt", "a+");
 	contactsNumberFile = fopen("ficheros/contacts_number.txt", "r");
 	
-	printf("¿Cuantos contactos va a ingresar?\n>> ");
+	clearScreen();
+	printf("Contactos a ingresar: ");
 	scanf("%hi", &N);
+	puts("Procesando...");
+	system("sleep 1");
 	
 	for (i = 1; i <= N; i++) {
+		clearScreen();
+		printf("Contacto [%i]\n", i);
 		fscanf(contactsNumberFile, "%i", &contactsNumber); // Obtener la cantidad total de productos en la DB
 		
 		// Agrega un '0' si la cantidad de productos en DB es de 1 digito
 		if (contactsNumber < 10) {
-			contact1.contactID[0] = '0';
-			contact1.contactID[1] = contactsNumber; // Numero de un digito
+			Contact.contactID[0] = '0';
+			Contact.contactID[1] = contactsNumber; // Numero de un digito
 			// Imprimir el contactID del producto en la DB
-			fprintf(contactDBFile, "%c", contact1.contactID[0]);
-			fprintf(contactDBFile, "%i", contact1.contactID[1]);
+			fprintf(contactDBFile, "%c", Contact.contactID[0]);
+			fprintf(contactDBFile, "%i", Contact.contactID[1]);
 		} else {
-			*contact1.contactID = contactsNumber;
+			*Contact.contactID = contactsNumber;
 			// Imprimir el contactID del producto en la DB
-			fprintf(contactDBFile, "%i", *contact1.contactID);
+			fprintf(contactDBFile, "%i", *Contact.contactID);
 		}
 		++contactsNumber;
 		
@@ -94,34 +112,48 @@ void addContactFunc(void) {
 		fprintf(contactsNumberFile, "%i", contactsNumber); // Actualiza la cantidad de productos en la DB
 		fclose(contactsNumberFile);
 		
-		fprintf(contactDBFile, "%s", " ---- ");
+		fputc('\t', contactDBFile);
 		
 		// Peticion de los datos de los contactos
 		// Nombre
 		printf("Nombre: ");
-		scanf("%s", contact1.name);
-		fprintf(contactDBFile, "%s", contact1.name);
-		fprintf(contactDBFile, "%s", " ---- ");
+		scanf("%s", Contact.name);
+		fprintf(contactDBFile, "%-15s", Contact.name);
 		
 		// Apellido
 		printf("Apellido: ");
-		scanf("%s", contact1.lastname);
-		fprintf(contactDBFile, "%s", contact1.lastname);
-		fprintf(contactDBFile, "%s", " ---- ");
+		scanf("%s", Contact.lastname);
+		fprintf(contactDBFile, "%-15s", Contact.lastname);
 		
 		// Edad
 		printf("Edad: ");
-		scanf("%hi", &contact1.age);
-		fprintf(contactDBFile, "%hi", contact1.age);
-		fprintf(contactDBFile, "%s", " ---- ");
+		scanf("%hi", &Contact.age);
+		fprintf(contactDBFile, "%-10hi", Contact.age);
 		
 		// Telefono
 		printf("Telefono: ");
-		scanf("%li", &contact1.number);
-		fprintf(contactDBFile, "%li", contact1.number);
+		scanf("%li", &Contact.number);
+		fprintf(contactDBFile, "%-12li", Contact.number);
+		
+		// Fecha de nacimiento
+		printf("Fecha de nacimiento (Números)\n");
+		printf("Día: "); scanf("%i", &Contact.birthday.d);
+		printf("Mes: "); scanf("%i", &Contact.birthday.m);
+		printf("Año: "); scanf("%i", &Contact.birthday.y);
+		
+		fprintf(contactDBFile, "%i", Contact.birthday.d);
+		fputc('/', contactDBFile);
+		fprintf(contactDBFile, "%i", Contact.birthday.m);
+		fputc('/', contactDBFile);
+		fprintf(contactDBFile, "%i", Contact.birthday.y);
+		fputc('/', contactDBFile);
 		
 		fputc('\n', contactDBFile); // Salto de linea
 	}
 	fclose(contactDBFile);
+	
+	puts("Agregando...");
+	system("sleep 1");
+	clearScreen();
 	return;
 }

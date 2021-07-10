@@ -27,7 +27,7 @@ void checkFilesFunc() {
 		// Pedir consentimiento al usuario para crear archivos
 		do {
 			clearScreen();
-			printf("\nEn el directorio actual se crearan\n\n");
+			printf("En el directorio actual se crearán\n\n");
 			puts("->>\t./fichero/...");
 			puts("->>\t./fichero/contacts_db.txt");
 			puts("->>\t./fichero/contacts_number.txt");
@@ -38,12 +38,12 @@ void checkFilesFunc() {
 			
 			if (opt == 0) {
 				clearScreen();
-				printf("¡Tenga buen dia!\n");
-				system("sleep 3");
+				printf("¡Tenga un buen día!\n");
+				system("sleep 2");
+				clearScreen();
 				exit(EXIT_SUCCESS);
 			}
-			
-		} while (opt != 1);	
+		} while (opt != 1);
 		clearScreen();
 		
 		// Crear "ficheros"
@@ -62,6 +62,7 @@ void checkFilesFunc() {
 					break;
 				default:
 					printf("Error: Error desconocido.\n");
+					exit(EXIT_FAILURE);
 				}
 			}
 			
