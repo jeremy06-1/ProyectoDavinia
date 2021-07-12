@@ -31,14 +31,14 @@ int createFiles(void) {
 }
 #endif
 //#include "./lib/login.h"
-#include "./lib/create_files.h"
+//#include "./lib/create_files.h"
 #include "./lib/agenda_logic.h"
 
 // Funcion de inicio
 void startFunc(void) {
 	/*Raynner Altamirano | Proyecto Davinia | Julio 07, 2021 | startFunc()*/
-	short opt;
-	
+	short opt, rsult;
+
 	// Opciones disponibles
 	puts("Inicio");
 	puts("~~~~~~");
@@ -49,12 +49,19 @@ void startFunc(void) {
 	printf("\nElija una opcion: ");
 	scanf("%hi", &opt);
 	
-	// Seleccionar las opciones que el usuario quiera.
-	switch (opt) {
-	case 0: exit(EXIT_SUCCESS); break;
-	case 1: listContactsFunc();	break;
-	case 2: addContactFunc(); break;
-	default: printf("Opcion ilegal.\n");
+	// Continuar si se cumple la condición
+	rsult = (opt >= 0 && opt <= 2);
+	if (rsult) {
+		// Seleccionar las opciones que el usuario quiera.
+		switch (opt) {
+			case 0: exit(EXIT_SUCCESS); break;
+			case 1: listContactsFunc();	break;
+			case 2: addContactFunc(); break;
+		}
+	} else {
+		clearScreen();
+		printf("Error: (%i) Carácter u opción ilegal.\n", opt);
+		exit(EXIT_SUCCESS);
 	}
 	return;
 }
@@ -63,7 +70,7 @@ void startFunc(void) {
 int main() {
 	short _true = 1;
 	
-	checkFilesFunc();
+	//checkFilesFunc();
 	
 	// loginFunc();
 	

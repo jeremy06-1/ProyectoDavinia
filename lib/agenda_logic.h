@@ -57,7 +57,7 @@ void addContactFunc(void) {
 	contactsNumberFile		>> Fichero con la cantidad total de contactos
 	i						>> Contador
 	N						>> Cantidad de productos a ingresar
-	cant					>> Cantidad de elementos de un contacto
+	cant					>> Cantidad de contactos
 	contactID				>> Identificacion de cada contacto
 	contactsNumber			>> Numero de productos en DB
 	*/
@@ -75,23 +75,31 @@ void addContactFunc(void) {
 	} Contact;
 	
 	FILE *contactDBFile, *contactsNumberFile;
-	short int i, N;
+	short int i, N, rsult;
 	int contactsNumber;
 	
 	// Abrir ficheros a editar
 	contactDBFile = fopen("ficheros/contacts_db.txt", "a+");
 	contactsNumberFile = fopen("ficheros/contacts_number.txt", "r");
 	
+	fscanf(contactsNumberFile, "%i", &contactsNumber); // Obtener la cantidad total de productos en la DB
+	
 	clearScreen();
+	printf("(Cantidad de contactos: %i/100.)\n", (contactsNumber - 1));
 	printf("Contactos a ingresar: ");
 	scanf("%hi", &N);
-	puts("Procesando...");
-	system("sleep 1");
+	
+	// Verificar el número ingresado
+	rsult = (N < 0 || N >= 100);
+	if (rsult) {
+		clearScreen();
+		printf("Error: (%hi) Carácter o número ilegal.\n", N);
+		exit(EXIT_SUCCESS);
+	}
 	
 	for (i = 1; i <= N; i++) {
 		clearScreen();
 		printf("Contacto [%i]\n", i);
-		fscanf(contactsNumberFile, "%i", &contactsNumber); // Obtener la cantidad total de productos en la DB
 		
 		// Agrega un '0' si la cantidad de productos en DB es de 1 digito
 		if (contactsNumber < 10) {
@@ -109,7 +117,7 @@ void addContactFunc(void) {
 		
 		fclose(contactsNumberFile);
 		contactsNumberFile = fopen("ficheros/contacts_number.txt", "w"); // Abriril it_cant.txt en modo escritura
-		fprintf(contactsNumberFile, "%i", contactsNumber); // Actualiza la cantidad de productos en la DB
+		fprintf(contactsNumberFile, "%i", contactsNumber); // Actualiza la cantidad de contactos en la DB
 		fclose(contactsNumberFile);
 		
 		fputc('\t', contactDBFile);
@@ -125,10 +133,14 @@ void addContactFunc(void) {
 		scanf("%s", Contact.lastname);
 		fprintf(contactDBFile, "%-15s", Contact.lastname);
 		
-		// Edad
-		printf("Edad: ");
-		scanf("%hi", &Contact.age);
-		fprintf(contactDBFile, "%-10hi", Contact.age);
+		do {
+			// Edad
+			printf("Edad: ");
+			scanf("%hi", &Contact.age);
+			fprintf(contactDBFile, "%-10hi", Contact.age);
+			
+			if (Contact.age <= 10 || Contact.age >= 100) printf("Error: Edad incorrecta.\n");
+		} while(Contact.age <= 10 || Contact.age >= 100);
 		
 		// Telefono
 		printf("Telefono: ");
@@ -151,9 +163,5 @@ void addContactFunc(void) {
 		fputc('\n', contactDBFile); // Salto de linea
 	}
 	fclose(contactDBFile);
-	
-	puts("Agregando...");
-	system("sleep 1");
-	clearScreen();
 	return;
 }
