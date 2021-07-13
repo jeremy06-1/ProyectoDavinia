@@ -43,10 +43,10 @@ void checkFilesFunc() {
 			clearScreen();
 			printf("En el directorio actual se crearán\n\n");
 			puts("->>\t./ficheros/...");
-			puts("->>\t./ficheros/contacts_db.txt");
-			puts("->>\t./ficheros/contacts_number.txt");
 			puts("->>\t./ficheros/username.txt");
 			puts("->>\t./ficheros/passwd.txt");
+			puts("->>\t./ficheros/contacts_db.txt");
+			puts("->>\t./ficheros/contacts_number.txt");
 			printf("\n1. Aceptar\n");
 			printf("0. Abortar\n\n");
 			printf("#? ");

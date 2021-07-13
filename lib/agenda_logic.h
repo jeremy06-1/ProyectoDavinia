@@ -28,6 +28,7 @@ void listContactsFunc(){
 	}
 	
 	clearScreen();
+	printf("~~\t~~~~~~         ~~~~~~~~       ~~~~      ~~~~~~~~    ~~~~~~~~~~~~~~~~~~~\n");
 	printf("ID\tNombre         Apellido       Edad      Teléfono    Fecha de nacimiento\n");
 	printf("~~\t~~~~~~         ~~~~~~~~       ~~~~      ~~~~~~~~    ~~~~~~~~~~~~~~~~~~~\n");
 
@@ -175,7 +176,7 @@ void addContactFunc(void) {
 		
 		//Año de nacimiento
 		do{
-			printf("Anio: "); scanf("%i", &Contact.birthday.y);
+			printf("Año: "); scanf("%i", &Contact.birthday.y);
 			if(Contact.birthday.y < 1900 || Contact.birthday.y > 3000) printf("Error: Año no válido.\n");
 		}while(Contact.birthday.y < 1900 || Contact.birthday.y > 3000);
 		fprintf(contactDBFile, "%i", Contact.birthday.y);

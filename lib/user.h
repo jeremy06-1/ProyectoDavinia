@@ -2,11 +2,6 @@
 	En este fichero se comprueba la existencia del ususario, si no existe,
 entonces lo crea
 */
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
 #define TECLA_ENTER 13
 #define TECLA_BACKSPACE 8
 #define LONGITUD 10
@@ -90,8 +85,10 @@ void checkPasswdWinFunc(void) {
 #elif defined(__linux__)
 // Código especial para Linux
 #include <termios.h>
-#include <unistd.h>
 #define ECHOFLAGS (ECHO | ECHOE | ECHOK | ECHONL)
+/*Código forastero
+Fuente: https://stackoverflow.com/questions/9731920/hide-user-input-and-only-allow-certain-characters
+*/
 int set_disp_mode(int fd, int option){
 	struct termios term;  
 	tcgetattr(fd, &term);
@@ -129,7 +126,8 @@ void	chekUserExistenceFunc(void),
 		createUserFunc(void),
 		requestAndHidePasswdWinFunc(void),
 		checkPasswdWinFunc(void),
-		printInFileFunc(void);		
+		printInFileFunc(void),
+		requestAndHidePasswdLnxFunc(void);
 
 // Comprueba que el usuario no exista para continuar
 void chekUserExistenceFunc(void) {
@@ -150,11 +148,14 @@ void chekUserExistenceFunc(void) {
 // Crea el usuario
 void createUserFunc() {
 	/* Pedro Alfonso*/
-	printf("Bienvenido\nIngrese el nombre el nuevo usuario\n\n\tNOMBRE: ");
+	puts("\tBienvenido");
+	puts("\t~~~~~~~~~~");
+	puts("\tCree su usuario\n");
+	printf("\tNOMBRE\t: ");
 	fflush(stdin);
 	scanf("%s", usuario);
 
-	printf("\tCLAVE: ");
+	printf("\tCLAVE\t: ");
 	// Detectar OS soportado (Windows y Linux)
 	if (strcmp(OS, "Windows") == 0) {
 		// Pedir clave y ocultarla (Windows)
@@ -180,8 +181,6 @@ void createUserFunc() {
 		printf("Error: Sistema operativo no soportado.");
 		exit(EXIT_FAILURE);
 	}
-	
-	
 	
 	printInFileFunc();	// Guardar usuario en un fiechero
 	return;
