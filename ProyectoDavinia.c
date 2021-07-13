@@ -1,4 +1,4 @@
-/* PROYECTO DAVINIA | II AÃ±o de IngenierÃ­a en Sistemas
+/* PROYECTO DAVINIA | II Año de Ingeniería en Sistemas
 Programadores: Pedro Alfonso, Kenneth Lola, Katherinne Castro, Raynner Altamirano, Jeremy Fonseca
 */
 #include <stdio.h>
@@ -12,27 +12,17 @@ Programadores: Pedro Alfonso, Kenneth Lola, Katherinne Castro, Raynner Altamiran
 void clearScreen(void) {
 	system("cls");
 }
-
-int createFiles(void) {
-	return mkdir("ficheros");
-}
-
 #elif defined(__linux__)
 #define OS "Linux"
 void clearScreen(void) {
 	system("clear");
 }
-
-int createFiles(void) {
-	system("mkdir ficheros");
-	system("touch ficheros/contacts_db.txt");
-	system("echo 1 > ficheros/contacts_number.txt");
-	return 0;
-}
 #endif
-//#include "./lib/login.h"
-//#include "./lib/create_files.h"
+#include "./lib/create_files.h"
+#include "./lib/user.h"
+#include "./lib/login.h"
 #include "./lib/agenda_logic.h"
+
 
 // Funcion de inicio
 void startFunc(void) {
@@ -42,8 +32,8 @@ void startFunc(void) {
 	// Opciones disponibles
 	puts("Inicio");
 	puts("~~~~~~");
-	printf("1. Ver contactos\n");
-	printf("2. Agregar contacto\n");
+	printf("1. Agregar contacto\n");
+	printf("2. Ver contactos\n");
 	printf("0. Salir\n");
 	
 	printf("\nElija una opcion: ");
@@ -55,8 +45,8 @@ void startFunc(void) {
 		// Seleccionar las opciones que el usuario quiera.
 		switch (opt) {
 			case 0: exit(EXIT_SUCCESS); break;
-			case 1: listContactsFunc();	break;
-			case 2: addContactFunc(); break;
+			case 1: addContactFunc(); break;
+			case 2: listContactsFunc();	break;
 		}
 	} else {
 		clearScreen();
@@ -70,13 +60,10 @@ void startFunc(void) {
 int main() {
 	short _true = 1;
 	
-	//checkFilesFunc();
+	checkFilesFunc(); // Comprueba que existan los ficheros para continuar
+	chekUserExistenceFunc(); // Comprueba que el usuario no exista para continuar
+	loginFunc(); // Inicia sesión con el usuario creado
 	
-	// loginFunc();
-	
-	while (_true) {
-		startFunc();
-	}
-	
+	while (_true) startFunc();
 	return 0;
 }

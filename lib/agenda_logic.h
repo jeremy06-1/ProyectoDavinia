@@ -63,7 +63,7 @@ void addContactFunc(void) {
 	*/
 	
 	// Estructuras
-	typedef struct Birthday {
+	typedef struct {
 		int d, m, y;
 	} Birthday;
 	
@@ -82,7 +82,15 @@ void addContactFunc(void) {
 	contactDBFile = fopen("ficheros/contacts_db.txt", "a+");
 	contactsNumberFile = fopen("ficheros/contacts_number.txt", "r");
 	
-	fscanf(contactsNumberFile, "%i", &contactsNumber); // Obtener la cantidad total de productos en la DB
+	// Obtener la cantidad total de contactos en la DB
+	fscanf(contactsNumberFile, "%i", &contactsNumber);
+	
+	if (contactsNumber > 99) {
+		clearScreen();
+		printf("Error: Ha llegado al número máximo de contactos.");
+		
+		exit(EXIT_SUCCESS);
+	}
 	
 	clearScreen();
 	printf("(Cantidad de contactos: %i/100.)\n", (contactsNumber - 1));
@@ -90,7 +98,7 @@ void addContactFunc(void) {
 	scanf("%hi", &N);
 	
 	// Verificar el número ingresado
-	rsult = (N < 0 || N >= 100);
+	rsult = (N < 0 || N > 99 || (N + (contactsNumber - 1)) > 99);
 	if (rsult) {
 		clearScreen();
 		printf("Error: (%hi) Carácter o número ilegal.\n", N);
@@ -133,35 +141,48 @@ void addContactFunc(void) {
 		scanf("%s", Contact.lastname);
 		fprintf(contactDBFile, "%-15s", Contact.lastname);
 		
+		// Edad
 		do {
-			// Edad
 			printf("Edad: ");
 			scanf("%hi", &Contact.age);
-			fprintf(contactDBFile, "%-10hi", Contact.age);
-			
 			if (Contact.age <= 10 || Contact.age >= 100) printf("Error: Edad incorrecta.\n");
 		} while(Contact.age <= 10 || Contact.age >= 100);
+		fprintf(contactDBFile, "%-10hi", Contact.age);
 		
 		// Telefono
-		printf("Telefono: ");
-		scanf("%li", &Contact.number);
+		do {
+			printf("Telefono: "); scanf("%li", &Contact.number);
+			if (Contact.number < 0) printf("Error: Número negativo.\n");
+		} while(Contact.number < 0);
 		fprintf(contactDBFile, "%-12li", Contact.number);
 		
 		// Fecha de nacimiento
 		printf("Fecha de nacimiento (Números)\n");
-		printf("Día: "); scanf("%i", &Contact.birthday.d);
-		printf("Mes: "); scanf("%i", &Contact.birthday.m);
-		printf("Año: "); scanf("%i", &Contact.birthday.y);
-		
+		do {
+			printf("Día: "); scanf("%i", &Contact.birthday.d);
+			if (Contact.birthday.d < 1 || Contact.birthday.d > 31) printf("Error: Día incorrecta.\n");
+		} while (Contact.birthday.d < 1 || Contact.birthday.d > 31);
 		fprintf(contactDBFile, "%i", Contact.birthday.d);
 		fputc('/', contactDBFile);
+
+		//Mes de nacimiento
+		do {
+			printf("Mes: "); scanf("%i", &Contact.birthday.m);
+			if(Contact.birthday.m < 1 || Contact.birthday.m > 12) printf("Error: Mes incorrecto.\n");
+		} while (Contact.birthday.m < 1 || Contact.birthday.m > 12);
 		fprintf(contactDBFile, "%i", Contact.birthday.m);
 		fputc('/', contactDBFile);
+		
+		//Año de nacimiento
+		do{
+			printf("Anio: "); scanf("%i", &Contact.birthday.y);
+			if(Contact.birthday.y < 1900 || Contact.birthday.y > 3000) printf("Error: Año no válido.\n");
+		}while(Contact.birthday.y < 1900 || Contact.birthday.y > 3000);
 		fprintf(contactDBFile, "%i", Contact.birthday.y);
-		fputc('/', contactDBFile);
 		
 		fputc('\n', contactDBFile); // Salto de linea
 	}
+	clearScreen();
 	fclose(contactDBFile);
 	return;
 }
